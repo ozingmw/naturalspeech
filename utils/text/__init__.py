@@ -2,6 +2,9 @@
 from text import cleaners
 from text.symbols import symbols
 
+from jamo import h2j
+from g2pk import G2p
+
 
 # Mappings from symbol to numeric ID and vice versa:
 _symbol_to_id = {s: i for i, s in enumerate(symbols)}
@@ -45,10 +48,17 @@ def sequence_to_text(sequence):
     return result
 
 
-def _clean_text(text, cleaner_names):
-    for name in cleaner_names:
-        cleaner = getattr(cleaners, name)
-        if not cleaner:
-            raise Exception("Unknown cleaner: %s" % name)
-        text = cleaner(text)
-    return text
+# def _clean_text(text, cleaner_names):
+#     for name in cleaner_names:
+#         cleaner = getattr(cleaners, name)
+#         if not cleaner:
+#             raise Exception("Unknown cleaner: %s" % name)
+#         text = cleaner(text)
+#     return text
+
+
+def _clean_text(text):
+  g2p=G2p() #grapheme to phoneme
+  text=g2p(text.replace(' ', '. ')).replace('. ', ' ')
+  text=h2j(text)
+  return text

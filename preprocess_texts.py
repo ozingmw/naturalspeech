@@ -10,8 +10,8 @@ if __name__ == "__main__":
         "--filelists",
         nargs="+",
         default=[
-            "filelists/ljs_audio_text_val_filelist.txt",
-            "filelists/ljs_audio_text_test_filelist.txt",
+            "filelists/transcript_refine_val.txt",
+            "filelists/transcript_refine_test.txt",
         ],
     )
     parser.add_argument("--text_cleaners", nargs="+", default=["english_cleaners2"])
@@ -23,7 +23,8 @@ if __name__ == "__main__":
         filepaths_and_text = load_filepaths_and_text(filelist)
         for i in range(len(filepaths_and_text)):
             original_text = filepaths_and_text[i][args.text_index]
-            cleaned_text = text._clean_text(original_text, args.text_cleaners)
+            # cleaned_text = text._clean_text(original_text, args.text_cleaners)
+            cleaned_text = text._clean_text(original_text)
             filepaths_and_text[i][args.text_index] = cleaned_text
 
         new_filelist = filelist + "." + args.out_extension
